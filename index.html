@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="description" content="재개발·재건축 조합 총회 자료 인쇄부터 우편 발송, 현장 집계까지. 더나은출력소 올케어 서비스.">
+<title>더나은출력소 | 재개발·재건축 총회 올케어</title>
+<style>
+  @font-face { font-family: "NanumSquare"; src: url("fonts/NanumSquare-ExtraBold.otf") format("opentype"); font-weight: 700; font-display: swap; }
+  @font-face { font-family: "Pretendard"; src: url("fonts/Pretendard-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+  @font-face { font-family: "Pretendard"; src: url("fonts/Pretendard-SemiBold.woff2") format("woff2"); font-weight: 600; font-display: swap; }
+  @font-face { font-family: "Pretendard"; src: url("fonts/Pretendard-Bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+
+  :root {
+    --navy: #1d2b45;
+    --navy-2: #2c3e63;
+    --accent: #e4572e;
+    --accent-dark: #c9431c;
+    --bg: #f6f7fa;
+    --card: #ffffff;
+    --text: #222a38;
+    --muted: #5f6878;
+    --line: #e3e6ee;
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body {
+    font-family: "Pretendard", "Malgun Gothic", "맑은 고딕", sans-serif;
+    color: var(--text); background: var(--bg);
+    line-height: 1.7; word-break: keep-all; overflow-wrap: break-word;
+  }
+  img, svg { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+  .wrap { width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+  /* 제목·로고는 나눔스퀘어 ExtraBold, 본문은 Pretendard */
+  h1, h2, .logo, .hl strong { font-family: "NanumSquare", "Pretendard", sans-serif; font-weight: 700; letter-spacing: -0.5px; }
+
+  /* 헤더 */
+  header {
+    position: sticky; top: 0; z-index: 20;
+    background: var(--navy); color: #fff;
+    padding-top: env(safe-area-inset-top);
+  }
+  header .wrap {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; min-height: 60px;
+  }
+  .logo { font-size: 19px; white-space: nowrap; }
+  .logo span { color: var(--accent); }
+  nav { display: flex; align-items: center; gap: 4px; }
+  nav a { padding: 8px 10px; font-size: 14px; opacity: .9; border-radius: 6px; }
+  nav a:hover { opacity: 1; background: rgba(255,255,255,.08); }
+  nav a.cta { background: var(--accent); color: #fff; opacity: 1; font-weight: 700; margin-left: 4px; }
+  nav a.cta:hover { background: var(--accent-dark); }
+
+  /* 히어로 */
+  .hero {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 100%);
+    color: #fff; padding: 88px 0 96px;
+  }
+  .tag {
+    display: inline-block; padding: 6px 14px; border-radius: 999px;
+    background: rgba(228,87,46,.2); color: #ffb49c; font-size: 14px; margin-bottom: 20px;
+  }
+  .hero h1 { font-size: clamp(28px, 6vw, 46px); line-height: 1.3; letter-spacing: -1px; margin-bottom: 18px; }
+  .hero h1 em { font-style: normal; color: var(--accent); }
+  .hero p { font-size: clamp(15px, 2.6vw, 18px); opacity: .88; max-width: 640px; margin-bottom: 32px; }
+  .btn-row { display: flex; flex-wrap: wrap; gap: 10px; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-height: 48px; padding: 0 26px; border-radius: 8px;
+    font-weight: 700; font-size: 16px; transition: .2s; border: 1.5px solid transparent;
+  }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: var(--accent-dark); }
+  .btn-ghost { border-color: rgba(255,255,255,.45); color: #fff; }
+  .btn-ghost:hover { background: rgba(255,255,255,.1); }
+
+  /* 공통 섹션 */
+  section { padding: 80px 0; }
+  .sec-head { text-align: center; margin-bottom: 44px; }
+  .sec-head small { color: var(--accent); font-weight: 700; letter-spacing: 1px; font-size: 13px; }
+  .sec-head h2 { font-size: clamp(24px, 4.5vw, 34px); margin-top: 6px; letter-spacing: -0.5px; line-height: 1.35; }
+  .sec-head p { color: var(--muted); margin-top: 10px; }
+
+  /* 요약 수치 */
+  .highlights {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    margin-top: -44px; position: relative; z-index: 2;
+  }
+  .hl {
+    background: var(--card); border-radius: var(--radius); padding: 24px 18px;
+    box-shadow: 0 10px 30px rgba(29,43,69,.08); text-align: center;
+  }
+  .hl strong { display: block; font-size: clamp(20px, 4vw, 28px); color: var(--navy); line-height: 1.3; }
+  .hl span { color: var(--muted); font-size: 14px; }
+
+  /* 올케어 3단계 */
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 30px 26px; transition: .25s; display: flex; flex-direction: column;
+  }
+  .card:hover { transform: translateY(-3px); box-shadow: 0 14px 32px rgba(29,43,69,.1); }
+  .step-no {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 40px; height: 40px; border-radius: 50%; background: var(--navy); color: #fff;
+    font-weight: 700; margin-bottom: 16px;
+  }
+  .card h3 { font-size: 20px; margin-bottom: 8px; }
+  .card p { color: var(--muted); font-size: 15px; }
+  .card ul { margin-top: 14px; padding-left: 18px; color: var(--muted); font-size: 14px; }
+  .card li + li { margin-top: 4px; }
+  .card-link {
+    margin-top: auto; align-self: flex-start;
+    display: inline-flex; align-items: center; min-height: 42px; padding: 0 18px; margin-top: 22px;
+    border: 1.5px solid var(--navy); border-radius: 8px;
+    color: var(--navy); font-weight: 700; font-size: 14px; transition: .2s;
+  }
+  .card-link:hover { background: var(--navy); color: #fff; }
+
+  /* 작업 예시 */
+  .examples { background: var(--card); }
+  .ex-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .ex-item {
+    background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius);
+    overflow: hidden; scroll-margin-top: 80px; display: flex; flex-direction: column;
+  }
+  .ex-item a.ex-thumb { display: block; }
+  .ex-item img { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; background: #eceef3; }
+  .ex-placeholder {
+    aspect-ratio: 4 / 3; display: flex; align-items: center; justify-content: center;
+    background: #eceef3; color: var(--muted); font-size: 14px; text-align: center; padding: 16px;
+  }
+  .ex-cap { padding: 18px 20px 22px; }
+  .ex-cap h3 { font-size: 17px; margin-bottom: 4px; }
+  .ex-cap p { color: var(--muted); font-size: 14px; }
+  /* 봉투 갤러리: 한 장씩 보고 > 버튼 또는 손가락으로 옆으로 넘기기 */
+  .gal { position: relative; padding: 0 20px; }
+  .gal-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; border-radius: 10px; }
+  .gal-track::-webkit-scrollbar { display: none; }
+  .gal-slide { flex: 0 0 100%; scroll-snap-align: start; margin: 0; height: 360px; padding: 20px 16px 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #eceef3; border-radius: 10px; }
+  .gal-slide img { height: 280px; width: auto; max-width: 100%; object-fit: contain; display: block; }
+  .gal-slide figcaption { margin-top: 12px; font-size: 14px; color: var(--muted); }
+  .gal-arrow { position: absolute; top: 180px; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; border: none; background: rgba(29,43,69,.85); color: #fff; font-size: 26px; line-height: 1; cursor: pointer; z-index: 2; transition: .2s; }
+  .gal-arrow:hover { background: var(--navy); }
+  .gal-arrow.prev { left: 28px; }
+  .gal-arrow.next { right: 28px; }
+  .gal-count { text-align: center; font-size: 14px; color: var(--muted); margin-top: 12px; }
+  .ex-note { text-align: center; color: var(--muted); font-size: 13px; margin-top: 20px; }
+
+  /* 진행 절차 */
+  .timeline { background: var(--bg); }
+  .timeline-row {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; position: relative;
+  }
+  .tl {
+    text-align: center; padding: 22px 14px; border-radius: var(--radius);
+    background: var(--card); border: 1px solid var(--line);
+  }
+  .tl b { display: block; color: var(--accent); font-size: 14px; margin-bottom: 4px; }
+  .tl h4 { font-size: 17px; margin-bottom: 6px; }
+  .tl p { color: var(--muted); font-size: 14px; }
+  .note { text-align: center; color: var(--muted); font-size: 14px; margin-top: 24px; }
+
+  /* 현장 집계 */
+  .field {
+    background: var(--navy); color: #fff; border-radius: 20px;
+    padding: 56px 40px;
+  }
+  .field .sec-head small { color: #ffb49c; }
+  .field .sec-head p { color: rgba(255,255,255,.75); }
+  .field-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .field-item {
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+    border-radius: var(--radius); padding: 24px;
+  }
+  .field-item h4 { font-size: 17px; margin-bottom: 6px; }
+  .field-item p { font-size: 15px; opacity: .82; }
+
+  /* 문의 */
+  .contact-box {
+    background: var(--card); border: 1px solid var(--line); border-radius: 20px;
+    padding: 48px 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start;
+  }
+  .contact-box h2 { font-size: clamp(22px, 4vw, 28px); line-height: 1.4; margin-bottom: 12px; }
+  .contact-box > div > p { color: var(--muted); }
+  .info { margin-top: 24px; list-style: none; }
+  .info li { padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
+  .info b { display: inline-block; width: 64px; color: var(--accent); font-weight: 700; }
+  form { display: grid; gap: 12px; }
+  input, textarea, select {
+    width: 100%; padding: 14px 16px; border-radius: 8px; border: 1px solid var(--line);
+    font: inherit; font-size: 16px; background: #fff; color: var(--text); /* 16px: iOS 자동 확대 방지 */
+    -webkit-appearance: none; appearance: none;
+  }
+  input:focus, textarea:focus, select:focus { outline: 2px solid var(--accent); outline-offset: 0; border-color: transparent; }
+  select { background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%); background-position: calc(100% - 20px) 50%, calc(100% - 15px) 50%; background-size: 5px 5px; background-repeat: no-repeat; }
+  textarea { min-height: 110px; resize: vertical; }
+  .form-note { font-size: 13px; color: var(--muted); text-align: center; }
+  .form-link-box { display: flex; flex-direction: column; gap: 16px; }
+  .form-link-box p { color: var(--muted); }
+  .form-link-box .btn { width: 100%; }
+  form .btn { width: 100%; border: none; cursor: pointer; font-size: 17px; }
+
+  footer { background: #131c2e; color: #8d96aa; padding: 36px 0; font-size: 13px; }
+  footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px 16px; }
+
+  /* 태블릿 */
+  @media (max-width: 960px) {
+    .grid-3 { grid-template-columns: 1fr 1fr; }
+    .grid-3 .card:last-child { grid-column: 1 / -1; }
+    .ex-grid { grid-template-columns: 1fr 1fr; }
+    .ex-grid .ex-item:last-child { grid-column: 1 / -1; }
+    .timeline-row { grid-template-columns: 1fr 1fr; }
+    .contact-box { grid-template-columns: 1fr; padding: 36px 28px; }
+  }
+
+  /* 모바일 */
+  @media (max-width: 640px) {
+    .wrap { padding: 0 16px; }
+    nav a:not(.cta) { display: none; }
+    nav a.cta { margin-left: 0; padding: 8px 14px; font-size: 14px; }
+    .hero { padding: 60px 0 68px; }
+    .btn-row .btn { flex: 1 1 100%; }
+    .highlights { grid-template-columns: 1fr; margin-top: -32px; }
+    .grid-3 { grid-template-columns: 1fr; }
+    .ex-grid { grid-template-columns: 1fr; }
+    .timeline-row { grid-template-columns: 1fr; }
+    section { padding: 56px 0; }
+    .field { padding: 36px 20px; border-radius: 16px; }
+    .field-grid { grid-template-columns: 1fr; }
+    .contact-box { padding: 28px 20px; border-radius: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a href="#top" class="logo">더나은<span>출력소</span></a>
+    <nav>
+      <a href="#service">서비스</a>
+      <a href="#process">진행</a>
+      <a href="#contact" class="cta">견적 문의</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <!-- 히어로 -->
+  <div class="hero">
+    <div class="wrap">
+      <span class="tag">재개발 · 재건축 조합 총회 올케어</span>
+      <h1>총회 자료 인쇄부터<br><em>우편 발송, 현장 집계</em>까지</h1>
+      <p>책자 제작, 봉투 직접 인쇄, DM 발송, OMR 현장 집계를 한 곳에서 맡아 드립니다. 여러 업체를 오갈 필요 없이 조합 일정에 맞춰 진행합니다.</p>
+      <div class="btn-row">
+        <a href="#contact" class="btn btn-primary">견적 문의하기</a>
+        <a href="#service" class="btn btn-ghost">서비스 살펴보기</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 요약 -->
+  <div class="wrap">
+    <div class="highlights">
+      <div class="hl"><strong>제작 · 발송 · 집계</strong><span>한 곳에서 해결</span></div>
+      <div class="hl"><strong>최대 2일 이내</strong><span>데이터 전달 후 발송 접수</span></div>
+      <div class="hl"><strong>실시간 집계</strong><span>현장 성원 보고와 결과 즉시 도출</span></div>
+    </div>
+  </div>
+
+  <!-- 서비스 -->
+  <section id="service">
+    <div class="wrap">
+      <div class="sec-head">
+        <small>ALL-CARE SERVICE</small>
+        <h2>인쇄소를 넘어, 총회 운영 파트너로</h2>
+        <p>필요한 단계만 골라 맡기실 수도 있고, 전 과정을 한 번에 맡기실 수도 있습니다.</p>
+      </div>
+      <div class="grid-3">
+        <div class="card">
+          <span class="step-no">1</span>
+          <h3>제작</h3>
+          <p>총회 책자, 서면결의서, 동의서를 고품질 장비로 인쇄합니다.</p>
+          <ul>
+            <li>총회 책자 · 안건서 · 의안 인쇄</li>
+            <li>서면결의서 · 조합원 동의서</li>
+            <li>긴급 · 당일 인쇄 상담</li>
+          </ul>
+        </div>
+        <div class="card">
+          <span class="step-no">2</span>
+          <h3>발송</h3>
+          <p>봉투에 주소를 직접 인쇄하고 우편 발송까지 진행합니다.</p>
+          <ul>
+            <li>봉투 주소 직접 인쇄 (라벨 없이)</li>
+            <li>회송용 봉투 제작 · 회신율 설계</li>
+            <li>DM 발송 대행</li>
+          </ul>
+        </div>
+        <div class="card">
+          <span class="step-no">3</span>
+          <h3>집계</h3>
+          <p>OMR 스캐너로 현장 집계를 지원해 결과를 빠르게 확정합니다.</p>
+          <ul>
+            <li>OMR 스캐너 출장 집계</li>
+            <li>중복 · 기재 오류 실시간 검출</li>
+            <li>성원 보고와 찬반 결과 즉시 출력</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 진행 절차 -->
+  <section id="process" class="timeline">
+    <div class="wrap">
+      <div class="sec-head">
+        <small>PROCESS</small>
+        <h2>자료를 주시면 최대 2일 안에 발송합니다</h2>
+        <p>총회 일정을 기준으로 거꾸로 계산해 진행합니다.</p>
+      </div>
+      <div class="timeline-row">
+        <div class="tl">
+          <b>STEP 01</b>
+          <h4>상담 접수</h4>
+          <p>총회 일정, 수량, 필요한 인쇄물을 확인합니다.</p>
+        </div>
+        <div class="tl">
+          <b>STEP 02</b>
+          <h4>견적 · 시안</h4>
+          <p>견적서와 디자인 시안을 전달합니다.</p>
+        </div>
+        <div class="tl">
+          <b>STEP 03</b>
+          <h4>교정 · 확정</h4>
+          <p>최종 교정을 확인받은 뒤 인쇄를 확정합니다.</p>
+        </div>
+        <div class="tl">
+          <b>STEP 04</b>
+          <h4>인쇄 · 발송</h4>
+          <p>수량을 검수하고 우편 발송 또는 현장으로 납품합니다.</p>
+        </div>
+      </div>
+      <p class="note">※ 일정은 자료 확정 시점과 수량에 따라 달라질 수 있어 상담 때 함께 확인해 드립니다.</p>
+    </div>
+  </section>
+
+  <!-- 현장 집계 -->
+  <section id="field">
+    <div class="wrap">
+      <div class="field">
+        <div class="sec-head">
+          <small>ON-SITE COUNTING</small>
+          <h2>총회 현장에서 바로 집계합니다</h2>
+          <p>OMR 스캐너와 전문 인력이 현장에 상주해 서면결의서와 투표지를 즉시 처리합니다.</p>
+        </div>
+        <div class="field-grid">
+          <div class="field-item">
+            <h4>즉시 스캔 집계</h4>
+            <p>접수된 서면결의서와 투표지를 현장에서 바로 스캔해 수작업보다 빠르게 처리합니다.</p>
+          </div>
+          <div class="field-item">
+            <h4>실시간 오류 검출</h4>
+            <p>중복 투표나 기재 오류로 생기는 무효 표를 실시간으로 걸러냅니다.</p>
+          </div>
+          <div class="field-item">
+            <h4>성원 보고</h4>
+            <p>의사정족수 충족 여부를 현장에서 바로 확인해 보고드립니다.</p>
+          </div>
+          <div class="field-item">
+            <h4>결과 리포트</h4>
+            <p>안건별 찬성, 반대, 기권 수를 현장에서 바로 출력할 수 있는 리포트로 정리합니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 문의 -->
+  <section id="contact">
+    <div class="wrap">
+      <div class="contact-box">
+        <div>
+          <h2>총회 일정이 다가오고 있다면<br>지금 문의해 주세요</h2>
+          <p>간단한 내용만 남겨 주시면 영업일 기준 당일 안에 연락드립니다.</p>
+          <ul class="info">
+            <li><b>전화</b> 010-2646-8643</li>
+            <li><b>FAX</b> 070-7604-6932</li>
+            <li><b>이메일</b> taerin369@gmail.com</li>
+            <li><b>주소</b> 경기도 용인시 기흥구 갈곡로 8번길 16 (구갈동 586-3) 더나은출력소</li>
+            <li><b>운영</b> 24시간</li>
+          </ul>
+        </div>
+        <div class="form-link-box">
+          <p>아래 버튼을 누르면 문의 폼이 새 창으로 열립니다. 작성해 주신 내용은 바로 접수되어 확인됩니다.</p>
+          <a href="https://marshy-pigeon-164.notion.site/41cc489569ea8172a6ede6ace4470819?v=41cc489569ea8142a095000cafd0adfa" class="btn btn-primary" id="inquiryBtn" target="_blank" rel="noopener">문의 폼 작성하기</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 더나은출력소. All rights reserved.</span>
+    <span>사업자등록번호 [입력] · 대표 [입력]</span>
+  </div>
+</footer>
+
+<script>
+  // 봉투 갤러리: 이전/다음 버튼과 현재 위치 표시
+  (function () {
+    var track = document.getElementById('envTrack');
+    var count = document.getElementById('envCount');
+    if (!track) return;
+    function step() {
+      var first = track.firstElementChild;
+      return first ? first.offsetWidth + 12 : track.clientWidth;
+    }
+    window.envGo = function (dir) {
+      track.scrollBy({ left: dir * step(), behavior: 'smooth' });
+    };
+    track.addEventListener('scroll', function () {
+      var total = track.children.length;
+      var idx = Math.round(track.scrollLeft / step()) + 1;
+      count.textContent = Math.min(idx, total) + ' / ' + total;
+    }, { passive: true });
+  })();
+</script>
+<script>
+  // 구글폼 주소가 아직 없으면 안내만 띄우기
+  document.getElementById('inquiryBtn').addEventListener('click', function (e) {
+    if (this.getAttribute('href').indexOf('PASTE_') === 0) {
+      e.preventDefault();
+      alert('문의 폼 주소가 아직 설정되지 않았습니다. 전화(010-2646-8643)로 문의해 주세요.');
+    }
+  });
+</script>
+</body>
+</html>
