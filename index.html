@@ -202,6 +202,13 @@
   .form-link-box { display: flex; flex-direction: column; gap: 16px; }
   .form-link-box p { color: var(--muted); }
   .form-link-box .btn { width: 100%; }
+  .tpl-box { background: #fff; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; text-align: left; }
+  .tpl-label { background: var(--navy); color: #fff; font-size: 13px; font-weight: 700; padding: 8px 14px; }
+  .tpl-box pre { white-space: pre-wrap; word-break: keep-all; margin: 0; padding: 14px 16px; font-family: inherit; font-size: 14px; line-height: 1.7; color: var(--text); }
+  .btn-copy { background: #fff; color: var(--navy); border: 1.5px solid var(--navy); }
+  .btn-copy:hover { background: var(--navy); color: #fff; }
+  .btn-mail { background: #fff; color: var(--accent); border: 1.5px solid var(--accent); }
+  .btn-mail:hover { background: var(--accent); color: #fff; }
   form .btn { width: 100%; border: none; cursor: pointer; font-size: 17px; }
 
   footer { background: #131c2e; color: #8d96aa; padding: 36px 0; font-size: 13px; }
@@ -395,10 +402,23 @@
           </ul>
         </div>
         <div class="form-link-box">
-          <p>아래 버튼을 누르면 문의 폼이 새 창으로 열립니다. 작성해 주신 내용은 바로 접수되어 확인됩니다.</p>
-          <a href="https://marshy-pigeon-164.notion.site/41cc489569ea8172a6ede6ace4470819?v=41cc489569ea8142a095000cafd0adfa" class="btn btn-primary" id="inquiryBtn" target="_blank" rel="noopener">문의 폼 작성하기</a>
+          <p>아래 버튼으로 문의해 주세요. DM으로 바로 문의하거나, 양식을 복사해서 보내 주셔도 됩니다.</p>
+          <a href="https://blogsms.net/thenaeunprint2023" class="btn btn-primary" target="_blank" rel="noopener">DM 문의하기</a>
+          <div class="tpl-box">
+            <div class="tpl-label">문의 양식 미리보기</div>
+            <pre id="tplText">홈페이지 보고 견적 신청드립니다.
+
+- 조합명:
+- 담당자 성함:
+- 담당자 이메일:
+- 연락처:
+- 문의 내용(원하시는 서비스):
+
+- 서비스 : 총회 자료 제작, 우편 발송 대행, 현장 전산 집계(OMR), 조합 맞춤 인쇄, 통합 올케어)</pre>
+          </div>
+          <button type="button" class="btn btn-copy" id="copyTemplateBtn">문의양식 복사하기</button>
+          <button type="button" class="btn btn-mail" id="copyEmailBtn">이메일 주소 복사하기</button>
         </div>
-      </div>
     </div>
   </section>
 </main>
@@ -406,37 +426,46 @@
 <footer>
   <div class="wrap">
     <span>© 2026 더나은출력소. All rights reserved.</span>
-    <span>사업자등록번호 [입력] · 대표 [입력]</span>
+    <span>사업자등록번호 810-20-01670 · 대표 김종헌</span>
   </div>
 </footer>
 
 <script>
-  // 봉투 갤러리: 이전/다음 버튼과 현재 위치 표시
-  (function () {
-    var track = document.getElementById('envTrack');
-    var count = document.getElementById('envCount');
-    if (!track) return;
-    function step() {
-      var first = track.firstElementChild;
-      return first ? first.offsetWidth + 12 : track.clientWidth;
+  // 문의 양식 텍스트 (복사용) - 미리보기와 같은 내용
+  var TEMPLATE = document.getElementById('tplText').textContent;
+  var EMAIL = 'taerin369@gmail.com';
+
+  function copyText(text, btn) {
+    var label = btn.getAttribute('data-label') || btn.textContent;
+    btn.setAttribute('data-label', label);
+    function show(ok) {
+      btn.textContent = ok ? '복사되었습니다' : '복사에 실패했습니다';
+      setTimeout(function () { btn.textContent = label; }, 2000);
     }
-    window.envGo = function (dir) {
-      track.scrollBy({ left: dir * step(), behavior: 'smooth' });
-    };
-    track.addEventListener('scroll', function () {
-      var total = track.children.length;
-      var idx = Math.round(track.scrollLeft / step()) + 1;
-      count.textContent = Math.min(idx, total) + ' / ' + total;
-    }, { passive: true });
-  })();
-</script>
-<script>
-  // 구글폼 주소가 아직 없으면 안내만 띄우기
-  document.getElementById('inquiryBtn').addEventListener('click', function (e) {
-    if (this.getAttribute('href').indexOf('PASTE_') === 0) {
-      e.preventDefault();
-      alert('문의 폼 주소가 아직 설정되지 않았습니다. 전화(010-2646-8643)로 문의해 주세요.');
+    function fallback() {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      document.body.removeChild(ta);
+      show(ok);
     }
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(function () { show(true); }, fallback);
+    } else {
+      fallback();
+    }
+  }
+
+  document.getElementById('copyTemplateBtn').addEventListener('click', function () {
+    copyText(TEMPLATE, this);
+  });
+  document.getElementById('copyEmailBtn').addEventListener('click', function () {
+    copyText(EMAIL, this);
   });
 </script>
 </body>
